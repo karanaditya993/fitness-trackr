@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Navigation from "./components/Navigation";
 import Pages from "./components/Pages";
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import { LOGIN_ROUTE, REGISTER_ROUTE } from "./constants";
