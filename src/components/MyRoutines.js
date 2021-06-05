@@ -8,9 +8,8 @@ import {
 	TableRow,
 	TableCell,
 	TableBody,
-	TextField,
 } from "@material-ui/core";
-import { Create as CreateIcon, Save as SaveIcon } from "@material-ui/icons";
+import RoutineRow from "./RoutineRow";
 
 const myUsernameFetch = (myToken) => {
 	try {
@@ -52,7 +51,6 @@ const myRoutinesFetch = (username, myToken) => {
 const MyRoutines = () => {
 	let myUsername;
 	const [myRoutines, setMyRoutines] = useState([]);
-	const [editMode, setEditMode] = useState(false);
 
 	useEffect(async () => {
 		const myToken = JSON.parse(localStorage.getItem("token"));
@@ -63,13 +61,10 @@ const MyRoutines = () => {
 		}
 	}, []);
 
-	const onEdit = () => {
-		setEditMode(true);
-	};
-
-	const onSave = (id) => {
-		setEditMode(false);
-		console.log(id);
+	const onRemoveRoutine = (idx) => {
+		const copy = [...myRoutines];
+		copy.splice(idx, 1);
+		setMyRoutines(copy);
 	};
 
 	return (
@@ -83,47 +78,19 @@ const MyRoutines = () => {
 						<TableCell align="right">Creator Name</TableCell>
 						<TableCell align="right">Is Public</TableCell>
 						<TableCell align="right"></TableCell>
+						<TableCell align="right"></TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{myRoutines.map((routine) => {
+					{myRoutines.map((routine, idx) => {
 						return (
-							<TableRow key={routine.id}>
-								<TableCell component="th" scope="row">
-									{routine.id}
-								</TableCell>
-								<TableCell align="right">
-									{editMode ? (
-										<TextField value={routine.name}></TextField>
-									) : (
-										routine.name
-									)}
-								</TableCell>
-								<TableCell align="right">
-									{editMode ? (
-										<TextField value={routine.goal}></TextField>
-									) : (
-										routine.goal
-									)}
-								</TableCell>
-								<TableCell align="right">{routine.creatorName}</TableCell>
-								<TableCell align="right">{routine.isPublic}</TableCell>
-								<TableCell align="right">
-									{editMode ? (
-										<SaveIcon
-											style={{ cursor: "pointer" }}
-											onClick={() => {
-												onSave(routine.id);
-											}}
-										/>
-									) : (
-										<CreateIcon
-											style={{ cursor: "pointer" }}
-											onClick={onEdit}
-										/>
-									)}
-								</TableCell>
-							</TableRow>
+							<RoutineRow
+								key={routine.id}
+								routine={routine}
+								onRemoveRoutine={() => {
+									onRemoveRoutine(idx);
+								}}
+							/>
 						);
 					})}
 				</TableBody>
