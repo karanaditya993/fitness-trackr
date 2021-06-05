@@ -1,4 +1,7 @@
 import { Route } from "react-router-dom";
+import Register from "./Register";
+import Login from "./Login";
+import Activites from "./Activities";
 import {
 	ACTIVITIES_ROUTE,
 	HOME_ROUTE,
@@ -19,7 +22,7 @@ const Pages = () => {
 				<h1>My Routines Page</h1>
 			</Route>
 			<Route path={ACTIVITIES_ROUTE}>
-				<h1>Activities Page</h1>
+				<Activites />
 			</Route>
 		</>
 	);
